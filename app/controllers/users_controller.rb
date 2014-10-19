@@ -30,7 +30,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         #UserMailer.registration(@user).deliver_later
-        UserMailer.registration(@user).deliver_later(queue: '')
+        UserMailer.registration(@user).deliver_later(queue: :regist_mail)
         UserCleanupJob.set(wait: 1.minutes).perform_later(@user)
 
         format.html { redirect_to @user, notice: 'User was successfully created.' }
